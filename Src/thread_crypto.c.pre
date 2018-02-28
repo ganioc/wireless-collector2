@@ -1,0 +1,63 @@
+#include "thread_crypto.h"
+#include "message.h"
+#include "stdio.h"
+#include "usart.h"
+#include "string.h"
+#include "mye2prom.h"
+#include "parser.h"
+#include "ctrllora.h"
+#include "myled.h"
+#include "cmsis_os.h"
+
+TaskThread_t mCryptoThread;
+uint8_t CRYPTO_BUF[280];
+uint8_t indexCRYPTO;
+
+static void TaskLoop(void const * argument)
+{
+
+    osEvent ret;
+        int lenDecryp;
+
+    while(1)
+    {
+        // waiting for the comming characters
+        ret = osSignalWait(0x3, 1000);
+        
+        if(ret.status ==  osEventSignal){
+             lenDecryp = decrypt((char*)buf, len);
+        printf("lenDecryp:%d\r\n", lenDecryp);
+
+        if(lenDecryp == -1){
+            printf("Wrong decrypt result\r\n");
+        }else{
+            for(i=0; i<lenDecryp; i++){
+                printf("0x%02x ", buf[i]);
+            }
+            printf("\r\n");
+        
+            //UART3_Transmit(buf,  lenDecryp);
+        }
+          
+        }else if(ret.status == osEventTimeout){
+        
+        }
+    }
+    
+}
+
+void CryptoThreadInit(){
+    osThreadDef(cryptothread, TaskLoop, osPriorityHigh, 0, 128);
+    mCryptoThread.idThread = osThreadCreate(osThread(cryptothread), NULL);
+
+    if(mCryptoThread.idThread == NULL)
+    {
+
+        printf("mCryptoThread create fail\r\n");
+    }
+    else
+    {
+        printf("mCryptoThread create OK\r\n");
+    }
+  
+}
