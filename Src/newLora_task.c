@@ -249,7 +249,7 @@ void LoraSyncByteHandler(uint8_t c)
 void LoraConfigTask()
 {
     osDelay(2000);
-    printf("\r\nlora-config\r\n");
+    //printf("\r\nlora-config\r\n");
 }
 
 void LoraWorkingTask()

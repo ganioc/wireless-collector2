@@ -293,20 +293,20 @@ void parseConfigRead(char *str, uint8_t len)
 
         printf("read sys info\r\n");
 
-        sprintf(strBuf, "version:%s;model:%s;addr:0x%x%x;chan:0x%x;role:0x%x;baudrate:0x%02x;\
-                        parity:0x%02x;stopbits:0x%02x;useEncrypt:%d;packetDelay:0x%x0x%x;",
+        sprintf(strBuf, "version:%s;model:%s;addr:0x%x;chan:0x%x;role:0x%x;baudrate:0x%02x;",
                 pSysInfo->version,
                 pSysInfo->model,
-                pSysInfo->addrH,
-                pSysInfo->addrL,
+                pSysInfo->addrH << 8 | pSysInfo->addrL,
                 pSysInfo->chan,
                 pSysInfo->role,
-                pRs485Info->baudRate,
+                pRs485Info->baudRate);
+        UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
+
+        sprintf(strBuf, "parity:0x%02x;stopbits:0x%02x;useEncrypt:0x%x;packetDelay:0x%x;",
                 pRs485Info->parity,
                 pRs485Info->stopBit,
                 pAdvanceInfo->bEncrypt,
-                pAdvanceInfo->packetDelayH,
-                pAdvanceInfo->packetDelayL);
+                pAdvanceInfo->packetDelayH << 8 | pAdvanceInfo->packetDelayL);
         UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
 
         // sprintf(strBuf, "version%d:%s\r\n", strlen(pSysInfo->version), pSysInfo->version);
@@ -343,29 +343,53 @@ void parseConfigRead(char *str, uint8_t len)
         // UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
 
         sprintf(strBuf, "secretKey:");
-        for (i = 0; i < MAX_SECRET_KEY_LEN; i++)
+        for (i = 0; i < MAX_SECRET_KEY_LEN - 1; i++)
         {
             printf("0x%02x ", pAdvanceInfo->secretKey[i]);
-            sprintf(strTemp, "0x%02x", pAdvanceInfo->secretKey[i]);
+            sprintf(strTemp, "0x%x ", pAdvanceInfo->secretKey[i]);
             //UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
             strcat(strBuf, strTemp);
         }
-        strcat(strBuf,";");
+        printf("0x%02x ", pAdvanceInfo->secretKey[MAX_SECRET_KEY_LEN - 1]);
+        sprintf(strTemp, "0x%x\r\n", pAdvanceInfo->secretKey[MAX_SECRET_KEY_LEN - 1]);
+        strcat(strBuf, strTemp);
         UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
 
+        //osDelay(50);
         // sprintf(strBuf, "factory key is:\r\n");
         // UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
-        sprintf(strBuf, "factoryKey:");
-        for (i = 0; i < MAX_SECRET_KEY_LEN; i++)
+        //sprintf(strBuf, "1234567890:");
+/*
+        for (i = 0; i < 13; i++)
         {
             printf("0x%02x ", pSecretInfo->factoryKey[i]);
-            sprintf(strTemp, "0x%02x", pSecretInfo->factoryKey[i]);
+            sprintf(strTemp, "0x%x-", pSecretInfo->factoryKey[i]);
             strcat(strBuf, strTemp);
         }
-        printf("\r\n");
-        strcat(strBuf,"\r\n");
-        UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
+        printf("0x%02x ", pSecretInfo->factoryKey[15 - 2]);
+        sprintf(strTemp, "0x%x-", pSecretInfo->factoryKey[15 - 2]);
+        //printf("\r\n");
+        strcat(strBuf, strTemp);
+
+        printf("0x%02x ", pSecretInfo->factoryKey[15 - 1]);
+        sprintf(strTemp, "0x%x-", pSecretInfo->factoryKey[15 - 1]);
+        //printf("\r\n");
+        strcat(strBuf, strTemp);
+        //UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
         // UART3_Transmit("\r\n", 2);
+
+        // for (i = 8; i < MAX_SECRET_KEY_LEN - 1; i++)
+        // {
+        //     printf("0x%02x ", pSecretInfo->factoryKey[i]);
+        //     sprintf(strTemp, "0x%02x-", pSecretInfo->factoryKey[i]);
+        //     strcat(strBuf, strTemp);
+        // }
+        printf("0x%02x ", pSecretInfo->factoryKey[MAX_SECRET_KEY_LEN - 1]);
+        sprintf(strTemp, "0x%x\r\n", pSecretInfo->factoryKey[MAX_SECRET_KEY_LEN - 1]);
+        printf("\r\n");
+        strcat(strBuf, strTemp);
+        UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
+        */
     }
     else
     {

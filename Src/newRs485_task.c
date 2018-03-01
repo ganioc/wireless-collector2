@@ -148,7 +148,7 @@ void Rs485ConfigTask()
 
     while (1)
     {
-        ret = osSignalWait(0x3, 1000);
+        ret = osSignalWait(0x3, 2000);
         if (ret.status == osEventSignal && ret.value.v == 1)
         {
             printf("%d:%s\r\n", strlen((char *)THREAD_RX_BUF), THREAD_RX_BUF);
