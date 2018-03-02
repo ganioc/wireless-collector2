@@ -18,7 +18,7 @@ static void TaskLoop(void const * argument){
 }
 
 void NewThreadLoraInit(){
-    osThreadDef(lorathread, TaskLoop, osPriorityHigh, 0, 256);
+    osThreadDef(lorathread, TaskLoop, osPriorityHigh, 0, 128);
     mLoraThread.idThread = osThreadCreate(osThread(lorathread), NULL);
 
     if(mLoraThread.idThread == NULL)

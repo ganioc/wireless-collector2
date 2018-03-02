@@ -14,11 +14,13 @@ uint8_t mRxState;
 uint8_t RX_BUF[BUFFER_MAX_SIZE_RS485];
 uint16_t indexRx = 0;
 
-static uint8_t THREAD_RX_BUF[BUFFER_MAX_SIZE_RS485];
-static uint8_t indexThreadRx = 0;
+uint8_t THREAD_RX_BUF[BUFFER_MAX_SIZE_RS485];
+uint8_t indexThreadRx = 0;
 
 extern TaskThread_t mRs485Thread;
 extern uint8_t bSlaveReceivedLoraCommand;
+
+static uint32_t semConfigSignalOccupy = 0;
 
 void Rs485ConfigByteHandler(uint8_t c)
 {
@@ -42,15 +44,19 @@ void Rs485ConfigByteHandler(uint8_t c)
         if (c == '\n')
         {
 
-            // copy buffer to thread buffer
-            indexThreadRx = indexRx;
-            for (i = 0; i < indexThreadRx; i++)
-            {
-                THREAD_RX_BUF[i] = RX_BUF[i];
-            }
-            THREAD_RX_BUF[i] = '\0';
             // signal
-            osSignalSet(mRs485Thread.idThread, 0x01);
+            if (semConfigSignalOccupy == 0)
+            {
+                // copy buffer to thread buffer
+                indexThreadRx = indexRx;
+                for (i = 0; i < indexThreadRx; i++)
+                {
+                    THREAD_RX_BUF[i] = RX_BUF[i];
+                }
+                THREAD_RX_BUF[i] = '\0';
+                osSignalSet(mRs485Thread.idThread, 0x01);
+                semConfigSignalOccupy = 1;
+            }
         }
         mRxState = CONFIG_STATE_ZERO;
         indexRx = 0;
@@ -148,12 +154,14 @@ void Rs485ConfigTask()
 
     while (1)
     {
-        ret = osSignalWait(0x3, 1000);
+        ret = osSignalWait(0x3, 100);
         if (ret.status == osEventSignal && ret.value.v == 1)
         {
             printf("%d:%s\r\n", strlen((char *)THREAD_RX_BUF), THREAD_RX_BUF);
 
             parseConfig((char *)THREAD_RX_BUF, strlen((char *)THREAD_RX_BUF));
+
+            semConfigSignalOccupy = 0;
         }
         else if (ret.status == osEventSignal && ret.value.v == 2)
         {
