@@ -195,7 +195,7 @@ void Rs485WorkingTask()
             }
             printf("\r\n");
 
-            if (indexRx <= 2)
+            if (indexRx <= 4)
             {
                 printf("too few bytes\r\n");
             }

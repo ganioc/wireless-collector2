@@ -355,11 +355,23 @@ void parseConfigRead(char *str, uint8_t len)
         strcat(strBuf, strTemp);
         UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
 
+        // sprintf(strBuf, "factoryKey:");
+        // for (i = 0; i < MAX_SECRET_KEY_LEN - 1; i++)
+        // {
+        //     printf("0x%02x ", pAdvanceInfo->secretKey[i]);
+        //     sprintf(strTemp, "0x%x ", pAdvanceInfo->secretKey[i]);
+        //     strcat(strBuf, strTemp);
+        // }
+        // printf("0x%02x ", pSecretInfo->factoryKey[MAX_SECRET_KEY_LEN - 1]);
+        // sprintf(strTemp, "0x%x", pSecretInfo->factoryKey[MAX_SECRET_KEY_LEN - 1]);
+        // //printf("\r\n");
+        // strcat(strBuf, strTemp);
+        // UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
         //osDelay(50);
         // sprintf(strBuf, "factory key is:\r\n");
         // UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
         //sprintf(strBuf, "1234567890:");
-/*
+        /*
         for (i = 0; i < 13; i++)
         {
             printf("0x%02x ", pSecretInfo->factoryKey[i]);
