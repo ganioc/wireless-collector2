@@ -6,7 +6,7 @@
 #define DELAY_NORMAL  500
 #define DELAY_QUICK   60
 #define DELAY_SLOW    1000
-#define DELAY_FLASH   100
+#define DELAY_FLASH   50
 
 #define DELAY_DUR     2000
 #define DELAY_TICK    100

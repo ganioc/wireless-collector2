@@ -40,10 +40,10 @@ void FlashLED2()
     LED2_Toggle();
     osDelay(DELAY_FLASH);
     LED2_Toggle();
-    //            osDelay( DELAY_FLASH);
-    //            LED2_Toggle();
-    //            osDelay( DELAY_FLASH);
-    //            LED2_Toggle();
+    osDelay( DELAY_FLASH);
+    LED2_Toggle();
+    osDelay( DELAY_FLASH);
+    LED2_Toggle();
 }
 
 uint8_t bGetDefaultKey()

@@ -7,6 +7,7 @@
 #include "encrypt.h"
 #include "message.h"
 #include "thread_crypto.h"
+#include "myled.h"
 
 extern TaskThread_t mCryptoThread;
 extern uint8_t CRYPTO_BUF[];
@@ -104,6 +105,8 @@ void SendOutLoraData(uint8_t bEncrypt, uint16_t addr, uint8_t *inBuf, uint16_t i
     printf("\r\n");
 
     osSignalSet(mCryptoThread.idThread, 0x02);
+    
+    FlashLED2();
 
     /*
     headerBuf[0] = 0xff; // & (addr >> 8);

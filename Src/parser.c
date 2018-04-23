@@ -13,15 +13,17 @@ extern TaskThread_t mRs485Thread;
 char strBuf[128];
 char strTemp[16];
 
+
 void parseConfigSet(char *str, uint8_t len)
 {
     char strObj[5];
-    char strContent[16];
+    char strContent[32];
 
     uint8_t i, j = 0, length;
     SysInfo_t *pSysInfo;
     Rs485Info_t *pRs485Info;
     AdvanceInfo_t *pAdvanceInfo;
+    SecretInfo_t *pSecretInfo;
     uint16_t addr16, channel;
 
     for (i = 0; i < 4; i++)
@@ -179,6 +181,7 @@ void parseConfigSet(char *str, uint8_t len)
         saveSysInfoPointer();
         saveRs485InfoPointer();
         saveAdvanceInfoPointer();
+        saveSecretInfoPointer();
         sprintf(strBuf, "%s\r\n", "SAVEOK");
         UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
         return;
@@ -216,7 +219,7 @@ void parseConfigSet(char *str, uint8_t len)
     else if (strcmp(strObj, "KEYS") == 0)
     {
         printf("set KEYS to:\r\n");
-        pAdvanceInfo = getAdvanceInfoPointer();
+        pSecretInfo = getSecretInfoPointer();
         length = strlen(strContent);
 
         if (length < 1)
@@ -227,25 +230,25 @@ void parseConfigSet(char *str, uint8_t len)
             UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
             return;
         }
-        else if (length >= MAX_SECRET_KEY_LEN)
+        else if (length > MAX_SECRET_KEY_LEN)
         {
             for (i = 0; i < MAX_SECRET_KEY_LEN; i++)
             {
-                pAdvanceInfo->secretKey[i] = strContent[i];
-                printf("0x%2x\r\n", pAdvanceInfo->secretKey[i]);
+                pSecretInfo->factoryKey[i] = strContent[i];
+                printf("0x%2x\r\n", pSecretInfo->factoryKey[i]);
             }
         }
         else
         {
             for (i = 0; i < length; i++)
             {
-                pAdvanceInfo->secretKey[i] = strContent[i];
-                printf("0x%2x\r\n", pAdvanceInfo->secretKey[i]);
+                pSecretInfo->factoryKey[i] = strContent[i];
+                printf("0x%2x\r\n", pSecretInfo->factoryKey[i]);
             }
             for (; i < MAX_SECRET_KEY_LEN; i++)
             {
-                pAdvanceInfo->secretKey[i] = 'R';
-                printf("0x%2x\r\n", pAdvanceInfo->secretKey[i]);
+                pSecretInfo->factoryKey[i] = '0';
+                printf("0x%2x\r\n", pSecretInfo->factoryKey[i]);
             }
         }
     }
@@ -345,13 +348,13 @@ void parseConfigRead(char *str, uint8_t len)
         sprintf(strBuf, "secretKey:");
         for (i = 0; i < MAX_SECRET_KEY_LEN - 1; i++)
         {
-            printf("0x%02x ", pAdvanceInfo->secretKey[i]);
-            sprintf(strTemp, "0x%x ", pAdvanceInfo->secretKey[i]);
+            printf("0x%02x ", pSecretInfo->factoryKey[i]);
+            sprintf(strTemp, "0x%x ", pSecretInfo->factoryKey[i]);
             //UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
             strcat(strBuf, strTemp);
         }
-        printf("0x%02x ", pAdvanceInfo->secretKey[MAX_SECRET_KEY_LEN - 1]);
-        sprintf(strTemp, "0x%x\r\n", pAdvanceInfo->secretKey[MAX_SECRET_KEY_LEN - 1]);
+        printf("0x%02x ", pSecretInfo->factoryKey[MAX_SECRET_KEY_LEN - 1]);
+        sprintf(strTemp, "0x%x\r\n", pSecretInfo->factoryKey[MAX_SECRET_KEY_LEN - 1]);
         strcat(strBuf, strTemp);
         UART3_Transmit((uint8_t *)strBuf, strlen(strBuf));
 
@@ -432,6 +435,7 @@ void parseConfig(char *str, uint8_t len)
 
     if (strcmp(strType, "SET*") == 0)
     {
+        printf("strObj len:%d\r\n", strlen(strObj));
         parseConfigSet(strObj, strlen(strObj));
     }
     else if (strcmp(strType, "READ") == 0)

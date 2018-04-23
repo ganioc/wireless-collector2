@@ -141,7 +141,8 @@ void CheckManualSetting()
 
         if (GetStateContext().type == 1)
         {
-            SwitchToBroadcasting();
+            // SwitchToBroadcasting();
+            printf("Cant switch to Broadcasting()\r\n");
         }
 
         setDefaultCounter = 0;

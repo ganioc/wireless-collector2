@@ -264,6 +264,7 @@ AdvanceInfo_t *getAdvanceInfoPointer()
 
     return pAdvanceInfo;
 }
+
 void saveAdvanceInfoPointer()
 {
     Set_AdvanceInfo(advanceInfo, ADVANCEINFO_SIZE);
