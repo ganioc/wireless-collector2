@@ -6,6 +6,14 @@ uint16_t mDelayPeriod = DELAY_QUICK;
 uint16_t mLED1Counter = 0;
 uint16_t mLED2Counter = 0;
 
+void EnableLora(){
+  
+  HAL_GPIO_WritePin(GPIOB, PIN_ENABLE_LORA, GPIO_PIN_SET);
+}
+void DisableLora(){
+  
+  HAL_GPIO_WritePin(GPIOB, PIN_ENABLE_LORA, GPIO_PIN_RESET);
+}
 void LED_On(uint16_t pin)
 {
     HAL_GPIO_WritePin(LED_PORT, pin, GPIO_PIN_RESET);

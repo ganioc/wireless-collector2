@@ -58,6 +58,7 @@
 /* USER CODE BEGIN Includes */
 #include "mye2prom.h"
 #include "encrypt.h"
+#include "myled.h"
     
 /* USER CODE END Includes */
 
@@ -108,6 +109,8 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART1_UART_Init();
+  
+  DisableLora();
   
   printf("\n=====================Start====================\n");
   

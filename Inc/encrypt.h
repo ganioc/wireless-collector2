@@ -12,5 +12,6 @@ int decryptFactory(char buf[], int len);
 
 void testEncrypt();
 void testEncrypt2();
+void testEncrypt3();
 void Encrypt_Init();
     

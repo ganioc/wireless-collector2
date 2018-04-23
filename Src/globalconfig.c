@@ -88,11 +88,14 @@ void SwitchToConfig()
 {
     SwitchState(STATE_TYPE_CONFIG);
     printf("Switch to Config state\r\n");
+
 }
 void SwitchToWorking()
 {
-
-    printf("Switch to Working state\r\n");
+    
+    printf("Switch to Working state, \r\n");
+    // osDelay(3000);
+    
     SetLoraSettingMode();
     while (bGetAuxKey() == 0)
     {

@@ -35,6 +35,8 @@
 #define  AUX_KEY_PIN     GPIO_PIN_0
 #define  AUX_KEY_PORT    GPIOB
 
+#define  PIN_ENABLE_LORA  GPIO_PIN_1
+
 #define  TO_BROADCASTING_TIME  5
 #define  TO_DEFAULT_TIME    10
 
@@ -72,4 +74,6 @@ void RunLED2SyncPattern(uint16_t t);
 
 void ResetLEDCounter();
 
+void EnableLora();
+void DisableLora();
 #endif

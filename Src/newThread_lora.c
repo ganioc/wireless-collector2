@@ -3,6 +3,7 @@
 #include "stdio.h"
 #include "cmsis_os.h"
 #include "globalconfig.h"
+#include "myled.h"
 
 TaskThread_t mLoraThread;
 
@@ -11,6 +12,9 @@ static void TaskLoop(void const * argument){
     osDelay(300);
     
     printf("\r\nnew loraThread taskloop started\r\n");
+    // enable Lora module power supply after 3 seconds
+    osDelay(3000);
+    EnableLora();
 
     while(1){
         GetStateContext().loraTaskLoop();  
