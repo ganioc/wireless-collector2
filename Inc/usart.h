@@ -79,6 +79,8 @@ void MX_USART1_UART_Init(void);
 void MX_USART2_UART_Init(void);
 void MX_USART3_UART_Init(void);
 
+void SetUart3DefaultMode();
+
 /* USER CODE BEGIN Prototypes */
 #ifdef __GNUC__
   /* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small 

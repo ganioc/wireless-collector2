@@ -129,7 +129,8 @@ int main(void)
   // MX_USART3_UART_Init();
   // This is the place init Uart3 based on parameterws read
   // from E2PROM
-  SetRs485WorkingBaudrate(pRs485Info);
+  // SetRs485WorkingBaudrate(pRs485Info);
+  SetUart3DefaultMode();
   
   MX_USB_PCD_Init();
 
