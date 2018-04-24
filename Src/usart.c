@@ -223,7 +223,7 @@ void ReInitUart3(uint32_t baudrate, uint32_t stopbits, uint32_t parity)
     }
     // I failed to modify the baud rate at runtime.
 
-    //DeInitUart3();
+    DeInitUart3();
 
     ReInitUart3( baudrate,  stopbits,  parity);
 
