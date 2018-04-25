@@ -24,10 +24,20 @@ void ConfigLora()
     SysInfo_t *pSysInfo;
 
     pSysInfo = getSysInfoPointer();
-
+    
+    // if role == master
+    if(pSysInfo->role == ROLE_MASTER)
+    {
+      params[1] = pSysInfo->addrH;
+      params[2] = pSysInfo->addrL;
+    } // role == slave
+    else{
+      params[1] = 0x12;
+      params[2] = 0xef;
+    }
+    
     params[0] = 0xC2;
-    params[1] = pSysInfo->addrH;
-    params[2] = pSysInfo->addrL;
+
     params[3] = pSysInfo->sped;
     params[4] = pSysInfo->chan;
     params[5] = pSysInfo->option;

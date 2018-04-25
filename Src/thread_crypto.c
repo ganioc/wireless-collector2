@@ -23,6 +23,7 @@ static void TaskLoop(void const *argument)
     int lenDecryp, i, nTotal , nTemp,j;
     SysInfo_t *pSysInfo = getSysInfoPointer();
     uint8_t channel = pSysInfo->chan;
+    // SysInfo_t *pSysInfo ;
 
     while (1)
     {
@@ -57,8 +58,19 @@ static void TaskLoop(void const *argument)
 
             nTotal = indexCRYPTO;
 
-            headerBuf[0] = 0xff; // & (addr >> 8);
-            headerBuf[1] = 0xff; // & (addr);
+            // if role == master
+            if(pSysInfo->role == ROLE_MASTER)
+            {
+              headerBuf[0] = 0xff; // & (addr >> 8);
+              headerBuf[1] = 0xff; // & (addr);
+            }
+            // else role == slave, send it only to the master
+            else{
+              headerBuf[0] = pSysInfo->addrH; // & (addr >> 8);
+              headerBuf[1] = pSysInfo->addrL; // & (addr);
+            }
+            
+
             headerBuf[2] = channel;
 
             printf("total length:%d  channel:%d\r\n", nTotal, channel);

@@ -103,8 +103,8 @@ void ResetToDefaultE2Prom()
     pMBRInfo->mark4 = 'f';
 
     // Default setting,create the default data value
-    pSysInfo->addrH = 0x00;
-    pSysInfo->addrL = 0x01;
+    pSysInfo->addrH = 0xab;
+    pSysInfo->addrL = 0xcd;
     pSysInfo->chan = 0x00; // channel 1  ,  0 ~ 1F
     pSysInfo->sped = SPED_SERIAL_8N1 | SPED_SERIAL_BAUDRATE_9600 | SPED_BPS_2K4;
     pSysInfo->option = OPTION_MODE_NON_TRANSPARENT | OPTION_IO_MODE_ZERO | OPTION_WAKEUP_250 | OPTION_FEC_ON | OPTION_PWR_20;

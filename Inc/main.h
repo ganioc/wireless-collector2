@@ -52,9 +52,9 @@
 #include "stm32f1xx_hal.h"
 /* USER CODE BEGIN Includes */
 
-#define HADRWIRED_VERSION  "1.02"
+#define HADRWIRED_VERSION  "1.03"
 
-#define MY_VERSION "2.01"
+#define MY_VERSION "2.02"
 #define MY_MODEL    "WLScanner"
 
 #define SPED_SERIAL_8N1                            (0x00<<6)
