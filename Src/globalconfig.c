@@ -8,6 +8,7 @@
 #include "cmsis_os.h"
 #include "ctrllora.h"
 #include "thread_crypto.h"
+#include "usart.h"
 
 StateType globalState;
 RoleType globalRole;
@@ -88,14 +89,26 @@ void SwitchToConfig()
 {
     SwitchState(STATE_TYPE_CONFIG);
     printf("Switch to Config state\r\n");
-
 }
 void SwitchToWorking()
 {
-    
+    Rs485Info_t *pRs485Info;
     printf("Switch to Working state, \r\n");
-    // osDelay(3000);
+
+    pRs485Info = getRs485InfoPointer();
+
+    // MX_USART3_UART_Init();
+    // This is the place init Uart3 based on parameterws read
+    // from E2PROM
+    SetRs485WorkingBaudrate(pRs485Info);
+    // SetUart3DefaultMode();
+    osDelay(500);
     
+    UART3_Receive();
+    
+    osDelay(1500);
+    printf("Switch to new Uart3 state\r\n");
+
     SetLoraSettingMode();
     while (bGetAuxKey() == 0)
     {
@@ -133,7 +146,8 @@ void SwitchToWaiting()
     SwitchState(STATE_TYPE_WAITING);
     printf("Switch to Waiting state\r\n");
 }
-void SwitchToSync(){
+void SwitchToSync()
+{
     SwitchState(STATE_TYPE_SYNC);
     mLoraState = LORA_STATE_RX_NONE;
     indexRxLora = 0;

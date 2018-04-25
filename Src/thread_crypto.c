@@ -45,10 +45,10 @@ static void TaskLoop(void const *argument)
                 {
                     printf("0x%02x ", CRYPTO_BUF[i]);
                 }
-
+                printf("\r\n");
                 UART3_Transmit(CRYPTO_BUF, lenDecryp);
 
-                printf("\r\n");
+                
             }
         }
         else if (ret.status == osEventSignal && ret.value.v == 2)

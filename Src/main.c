@@ -84,7 +84,7 @@ void MX_FREERTOS_Init(void);
 
 int main(void)
 {
-    Rs485Info_t  *pRs485Info;
+   // Rs485Info_t  *pRs485Info;
 
   /* USER CODE BEGIN 1 */
 
@@ -124,7 +124,7 @@ int main(void)
 
   MX_USART2_UART_Init();
 
-  pRs485Info = getRs485InfoPointer();
+  // pRs485Info = getRs485InfoPointer();
   
   // MX_USART3_UART_Init();
   // This is the place init Uart3 based on parameterws read

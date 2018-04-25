@@ -120,7 +120,7 @@ void MX_USART3_UART_Init(void)
 
 void DeInitUart3(void)
 {
-    HAL_UART_MspDeInit(&huart3);
+    HAL_UART_DeInit(&huart3);
 }
 void ReInitUart3(uint32_t baudrate, uint32_t stopbits, uint32_t parity)
 {
@@ -147,7 +147,7 @@ void SetUart3DefaultMode()
     stopbits = UART_STOPBITS_1;
     parity = UART_PARITY_NONE;
 
-    DeInitUart3();
+    // DeInitUart3();
 
     ReInitUart3(baudrate, stopbits, parity);
 
