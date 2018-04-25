@@ -56,7 +56,7 @@ void SendOutLoraData(uint8_t bEncrypt, uint16_t addr, uint8_t *inBuf, uint16_t i
     uint16_t index = 0;
     uint16_t i,nTotal, lenEncrypt;
 
-    printf("\r\nSendOut Lora data  to addr: %d at channel %d  len:%d\r\n", addr,
+    printf("\r\nSendOut Lora data  to addr: %x at channel %d  len:%d\r\n", addr,
            channel, inLen);
 
     buf[index++] = FRAME_HEAD;
@@ -101,6 +101,7 @@ void SendOutLoraData(uint8_t bEncrypt, uint16_t addr, uint8_t *inBuf, uint16_t i
         printf("0x%02x ", buf[i]);
         CRYPTO_BUF[i] = buf[i];
     }
+
     indexCRYPTO = nTotal;
     printf("\r\n");
 

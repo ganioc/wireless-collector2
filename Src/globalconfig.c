@@ -14,6 +14,8 @@ StateType globalState;
 RoleType globalRole;
 
 uint8_t bSlaveReceivedLoraCommand = 0;
+uint8_t srcAddressH = 0;
+uint8_t srcAddressL = 0;
 
 extern uint8_t mRxState;
 extern uint16_t indexRx;

@@ -61,13 +61,13 @@ static void TaskLoop(void const *argument)
             // if role == master
             if(pSysInfo->role == ROLE_MASTER)
             {
-              headerBuf[0] = 0xff; // & (addr >> 8);
-              headerBuf[1] = 0xff; // & (addr);
+              headerBuf[0] = CRYPTO_BUF[3]; // 0xff; // & (addr >> 8);
+              headerBuf[1] = CRYPTO_BUF[4]; // 0xff; // & (addr);
             }
             // else role == slave, send it only to the master
             else{
-              headerBuf[0] = pSysInfo->addrH; // & (addr >> 8);
-              headerBuf[1] = pSysInfo->addrL; // & (addr);
+              headerBuf[0] = CRYPTO_BUF[3]; // pSysInfo->addrH; // & (addr >> 8);
+              headerBuf[1] = CRYPTO_BUF[4]; // pSysInfo->addrL; // & (addr);
             }
             
 

@@ -4,6 +4,8 @@
 #include "stm32f1xx_hal.h"
 #include "main.h"
 #include "encrypt.h"
+#include <stdint.h>
+
 /**
 
 8KB  = 64bit
@@ -42,6 +44,17 @@ there are 32 sections
 // this is the key to encrypt secret_key durint broadcasting
 #define FACTORY_KEY          "0011223344556677"   
 #define MAGIC_NUM            'R'  
+
+#define MMIO16(addr) (*(volatile uint16_t *)(addr))
+#define MMIO32(addr) (*(volatile uint32_t *)(addr))
+#define U_ID      0x1ffff7e8
+
+struct u_id {
+   uint16_t off0;
+   uint16_t off2;
+   uint32_t off4;
+   uint32_t off8;
+};
 
 typedef struct MBRInfo
 {

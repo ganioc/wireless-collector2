@@ -19,6 +19,8 @@ uint8_t indexThreadRx = 0;
 
 extern TaskThread_t mRs485Thread;
 extern uint8_t bSlaveReceivedLoraCommand;
+extern uint8_t srcAddressH;
+extern uint8_t srcAddressL;
 
 static uint32_t semConfigSignalOccupy = 0;
 
@@ -199,11 +201,10 @@ void Rs485WorkingTask()
             {
                 printf("too few bytes\r\n");
             }
-            else if (GetRole() == MASTER ||
-                     (GetRole() == SLAVE && bSlaveReceivedLoraCommand == 1))
+            else if (GetRole() == MASTER )
             {
-                addr16 = getAddress();
-                printf("Print out addr:%x\r\n", addr16);
+                addr16 = 0xffff;
+                printf("Print out addr master:%x\r\n", addr16);
                 if (isUseEncrypt() == 1)
                 {
                     SendOutLoraData(1, addr16, RX_BUF, indexRx);
@@ -212,6 +213,21 @@ void Rs485WorkingTask()
                 {
                     SendOutLoraData(0, addr16, RX_BUF, indexRx);
                 }
+            }
+            else if(GetRole() == SLAVE && bSlaveReceivedLoraCommand == 1){
+              
+                addr16 = srcAddressH<<8|srcAddressL;
+
+                printf("Print out addr slave:%x\r\n", addr16);
+                if (isUseEncrypt() == 1)
+                {
+                    SendOutLoraData(1, addr16, RX_BUF, indexRx);
+                }
+                else
+                {
+                    SendOutLoraData(0, addr16, RX_BUF, indexRx);
+                }
+
 
                 bSlaveReceivedLoraCommand = 0;
             }

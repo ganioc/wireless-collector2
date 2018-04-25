@@ -79,6 +79,20 @@ void Set_SecretInfo(uint8_t *data, uint8_t len)
 {
     E2PROM_Write(SECTION_SECRETINFO, PAGE_SECRETINFO, data, len);
 }
+struct u_id Get_ChipId(){
+  struct u_id d;
+  
+  d.off0 = MMIO16(U_ID + 0);
+  d.off2 = MMIO16(U_ID + 2);
+  d.off4 = MMIO32(U_ID + 4);
+  d.off8 = MMIO32(U_ID + 8);
+  
+  printf("\r\nchipid %0x  %0x  %0x  %0x\r\n", d.off0, d.off2, d.off4, d.off8);
+  
+  return d;
+}
+
+
 
 void ResetToDefaultE2Prom()
 {
@@ -89,6 +103,7 @@ void ResetToDefaultE2Prom()
     Rs485Info_t *pRs485Info;
     AdvanceInfo_t *pAdvanceInfo;
     SecretInfo_t *pSecretInfo;
+    struct u_id uId;
 
     pMBRInfo = (MBRInfo_t *)mbrInfo;
     pSysInfo = (SysInfo_t *)sysInfo;
@@ -103,8 +118,10 @@ void ResetToDefaultE2Prom()
     pMBRInfo->mark4 = 'f';
 
     // Default setting,create the default data value
-    pSysInfo->addrH = 0xab;
-    pSysInfo->addrL = 0xcd;
+    // Generate a random number for device address;
+    uId =  Get_ChipId();
+    pSysInfo->addrH = (uId.off8 >> 8) & 0xff;
+    pSysInfo->addrL = (uId.off8 >> 0) & 0xff;
     pSysInfo->chan = 0x00; // channel 1  ,  0 ~ 1F
     pSysInfo->sped = SPED_SERIAL_8N1 | SPED_SERIAL_BAUDRATE_9600 | SPED_BPS_2K4;
     pSysInfo->option = OPTION_MODE_NON_TRANSPARENT | OPTION_IO_MODE_ZERO | OPTION_WAKEUP_250 | OPTION_FEC_ON | OPTION_PWR_20;

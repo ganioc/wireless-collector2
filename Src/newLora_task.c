@@ -9,6 +9,8 @@
 
 extern TaskThread_t mLoraThread;
 extern uint8_t bSlaveReceivedLoraCommand;
+extern uint8_t srcAddressH;
+extern uint8_t srcAddressL;
 
 uint8_t mLoraState;
 
@@ -17,6 +19,8 @@ uint16_t indexRxLora = 0;
 
 uint8_t RX_BUF_FOR_RS485[BUFFER_MAX_SIZE_RS485];
 uint16_t indexRxForRs485 = 0;
+
+
 
 void ConfigLora()
 {
@@ -55,8 +59,23 @@ void ConfigLoraChannel(uint8_t ch)
     pSysInfo = getSysInfoPointer();
 
     params[0] = 0xC2;
-    params[1] = pSysInfo->addrH;
-    params[2] = pSysInfo->addrL;
+    
+    
+//    params[1] = pSysInfo->addrH;
+//    params[2] = pSysInfo->addrL;
+    
+    // if role == master
+    if(pSysInfo->role == ROLE_MASTER)
+    {
+      params[1] = pSysInfo->addrH;
+      params[2] = pSysInfo->addrL;
+    } // role == slave
+    else{
+      params[1] = 0x12;
+      params[2] = 0xef;
+    }
+    
+    
     params[3] = pSysInfo->sped;
     params[4] = ch;
     params[5] = pSysInfo->option;
@@ -87,6 +106,8 @@ void HandleData(uint8_t *inBuf, uint8_t inLen, void (*handle)(uint8_t *buf, uint
         {
             // addr16LastTime = inBuf[1]<< 8| inBuf[2];
             bSlaveReceivedLoraCommand = 1;
+            srcAddressH = inBuf[1];
+            srcAddressL = inBuf[2];
         }
 
         //SendOutRs485Data(inBuf + 7, inBuf[5] << 8 | inBuf[6]);
@@ -115,6 +136,9 @@ void HandleData(uint8_t *inBuf, uint8_t inLen, void (*handle)(uint8_t *buf, uint
         if (GetRole() == SLAVE)
         {
             //addr16LastTime = inBuf[1]<< 8| inBuf[2];
+            bSlaveReceivedLoraCommand = 1;
+            srcAddressH = inBuf[1];
+            srcAddressL = inBuf[2];
         }
         indexRxForRs485 = 0;
 
