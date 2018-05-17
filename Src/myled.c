@@ -16,12 +16,12 @@ void DisableLora(){
 }
 void LED_On(uint16_t pin)
 {
-    HAL_GPIO_WritePin(LED_PORT, pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(LED_PORT, pin, GPIO_PIN_SET);
 }
 
 void LED_Off(uint16_t pin)
 {
-    HAL_GPIO_WritePin(LED_PORT, pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(LED_PORT, pin, GPIO_PIN_RESET);
 }
 
 
@@ -90,7 +90,7 @@ void RunLED2MasterPattern(uint16_t t)
     {
         LED2_On();
     }
-    else if (mLED2Counter == 10)
+    else if (mLED2Counter >= 10)
     {
         LED2_Off();
         mLED2Counter = 0;
@@ -104,7 +104,7 @@ void RunLED2SlavePattern(uint16_t t)
     {
         LED2_On();
     }
-    else if (mLED2Counter == 4)
+    else if (mLED2Counter >= 4)
     {
         LED2_Off();
         mLED2Counter = 0;
@@ -114,11 +114,11 @@ void RunLED1ConfigPattern(uint16_t t)
 {
     mLED1Counter++;
 
-    if (mLED1Counter == 9)
+    if (mLED1Counter == 1)
     {
         LED1_On();
     }
-    else if (mLED1Counter == 10)
+    else if (mLED1Counter >= 4)
     {
         LED1_Off();
         mLED1Counter = 0;
@@ -141,11 +141,11 @@ void RunLED1WorkingPattern(uint16_t t)
 {
     mLED1Counter++;
 
-    if (mLED1Counter == 5)
+    if (mLED1Counter == 10)
     {
         LED1_On();
     }
-    else if (mLED1Counter == 10)
+    else if (mLED1Counter >= 20)
     {
         LED1_Off();
         mLED1Counter = 0;
@@ -172,7 +172,7 @@ void RunLED1BroadcastingPattern(uint16_t t)
     {
         LED1_On();
     }
-    else if (mLED1Counter == 30)
+    else if (mLED1Counter >= 30)
     {
         LED1_Off();
         mLED1Counter = 0;
@@ -195,9 +195,13 @@ void RunLED1WaitingPattern(uint16_t t)
 {
     mLED1Counter++;
 
-    if (mLED1Counter == 1)
+    if (mLED1Counter == 2)
     {
-        LED1_Toggle();
+        LED1_On();
+    }
+    else if (mLED1Counter >= 20)
+    {
+        LED1_Off();
         mLED1Counter = 0;
     }
 }

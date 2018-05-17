@@ -33,7 +33,7 @@ void E2PROM_Write(uint8_t section, uint8_t page, uint8_t *data, uint8_t len)
 
     do
     {
-        printf("E2PROM write\n");
+        printf("E2PROM write\r\n");
         fb = HAL_I2C_Mem_Write(&hi2c1, E2PROM_ADDR, memaddr, I2C_MEMADD_SIZE_16BIT, data, len, E2PROM_WRITE_WAIT);
 
     } while (fb != HAL_OK);
