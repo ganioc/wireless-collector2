@@ -40,7 +40,7 @@
 #define  PIN_ENABLE_LORA  GPIO_PIN_1
 
 #define  TO_BROADCASTING_TIME  5
-#define  TO_DEFAULT_TIME    10
+#define  TO_DEFAULT_TIME    20
 
 void LED_On(uint16_t pin);
 void LED_Off(uint16_t pin);

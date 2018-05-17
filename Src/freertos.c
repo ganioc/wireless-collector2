@@ -122,24 +122,15 @@ void MX_FREERTOS_Init(void)
 }
 void CheckManualSetting()
 {
-    if (bGetDefaultKey() == 1 && setDefaultCounter >= TO_BROADCASTING_TIME && setDefaultCounter < TO_BROADCASTING_TIME + 3)
+    if (bGetDefaultKey() == 1 
+            && setDefaultCounter >= TO_BROADCASTING_TIME 
+            && setDefaultCounter < TO_BROADCASTING_TIME + 4)
     {
         // set to broadcasting mode
         // setDefaultCounter++;
         printf("Switch to Broadcasting mode\r\n");
 
-        // osDelay(1000);
-        // wwdg_life_counter = 0;
-        // osDelay(1000);
-        // wwdg_life_counter = 0;
-        // osDelay(1000);
-        // wwdg_life_counter = 0;
-        // osDelay(1000);
-        // wwdg_life_counter = 0;
-        // osDelay(1000);
-        // wwdg_life_counter = 0;
-
-        if (GetStateContext().type == 1)
+        if (GetStateContext().type == 1)  // master
         {
             // SwitchToBroadcasting();
             printf("Cant switch to Broadcasting()\r\n");
@@ -147,7 +138,8 @@ void CheckManualSetting()
 
         setDefaultCounter = 0;
     }
-    else if (setDefaultCounter >= TO_BROADCASTING_TIME && setDefaultCounter < TO_BROADCASTING_TIME + 4)
+    else if (setDefaultCounter >= TO_BROADCASTING_TIME 
+            && setDefaultCounter < TO_BROADCASTING_TIME + 4)
     {
         printf("approach Into Broadcasting mode\r\n");
 
@@ -223,10 +215,10 @@ void CheckManualSetting()
 
         setDefaultCounter++;
     }
-    else if (bGetDefaultKey() == 1 && setDefaultCounter < TO_BROADCASTING_TIME)
-    {
-        setDefaultCounter = 0;
-    }
+    // else if (bGetDefaultKey() == 1 && setDefaultCounter < TO_BROADCASTING_TIME)
+    // {
+    //     setDefaultCounter = 0;
+    // }
     else if (bGetDefaultKey() == 0)
     {
         setDefaultCounter++;
