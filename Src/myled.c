@@ -24,6 +24,8 @@ void LED_Off(uint16_t pin)
     HAL_GPIO_WritePin(LED_PORT, pin, GPIO_PIN_SET);
 }
 
+
+
 void LED_Toggle(uint16_t pin)
 {
     HAL_GPIO_TogglePin(LED_PORT, pin);
@@ -88,7 +90,7 @@ void RunLED2MasterPattern(uint16_t t)
     {
         LED2_On();
     }
-    else if (mLED2Counter == 20)
+    else if (mLED2Counter == 10)
     {
         LED2_Off();
         mLED2Counter = 0;
@@ -98,11 +100,11 @@ void RunLED2SlavePattern(uint16_t t)
 {
     mLED2Counter++;
 
-    if (mLED2Counter == 18)
+    if (mLED2Counter == 2)
     {
         LED2_On();
     }
-    else if (mLED2Counter == 20)
+    else if (mLED2Counter == 4)
     {
         LED2_Off();
         mLED2Counter = 0;

@@ -5,6 +5,7 @@
         "newlora_task.h": "c",
         "newrs485_task.h": "c",
         "cmsis_os.h": "c",
-        "usart.h": "c"
+        "usart.h": "c",
+        "myled.h": "c"
     }
 }

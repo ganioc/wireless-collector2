@@ -1,5 +1,6 @@
 chipid ff33  673  3538524d  43215421  (one sample)
-
+chipid ff50  66a  54576572  67134414
+chipid ff33  66f  3538524d  43204718
 
 master get data from RS485, len:8
 0x01

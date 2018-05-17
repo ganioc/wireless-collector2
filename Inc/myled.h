@@ -17,6 +17,8 @@
 #define LED2                GPIO_PIN_7
 #define LED_PORT            GPIOA
 
+
+
 #define  LED1_On() do{LED_On(LED1);}while(0)
 #define  LED2_On() do{LED_On(LED2);}while(0)
 
@@ -43,6 +45,7 @@
 void LED_On(uint16_t pin);
 void LED_Off(uint16_t pin);
 void LED_Toggle(uint16_t pin);
+
 
 void SetLED1Quick();
 void SetLED1Slow();
