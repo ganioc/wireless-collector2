@@ -32,7 +32,7 @@ void SetLoraWorkingMode()
 void WriteLora(uint8_t *buf, uint8_t len)
 {
     uint8_t i;
-    printf("writeLora len:%d, addr:%02x %02x channel:%d\r\n", len, buf[0], buf[1], buf[2]);
+    printf("writeLora len:%d, addr:%02x %02x channel:%d\r\n", len, buf[0], buf[1], buf[4]);
 
     for (i = 0; i < len; i++)
     {
