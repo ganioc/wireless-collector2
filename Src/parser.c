@@ -13,7 +13,6 @@ extern TaskThread_t mRs485Thread;
 char strBuf[128];
 char strTemp[16];
 
-
 void parseConfigSet(char *str, uint8_t len)
 {
     char strObj[5];
@@ -295,6 +294,21 @@ void parseConfigRead(char *str, uint8_t len)
         pAdvanceInfo = getAdvanceInfoPointer();
 
         printf("read sys info\r\n");
+
+        printf("SPED:%x\n", pSysInfo->sped);
+        printf("channel: %d\n", pSysInfo->chan);
+        printf("option: %x\n", pSysInfo->option);
+        printf("model:%s\n", pSysInfo->model);
+        printf("version:%s\n", pSysInfo->version);
+        printf("role:%d\n", pSysInfo->role);
+        printf("RS485:\r\n");
+        printf("baudrate:%d\r\n", pRs485Info->baudRate);
+        printf("parity:%d\r\n", pRs485Info->parity);
+        printf("stopbits:%d\r\n", pRs485Info->stopBit);
+
+        printf("packetDelay H:%d\r\n", pAdvanceInfo->packetDelayH);
+        printf("packetDelay L:%d\r\n", pAdvanceInfo->packetDelayL);
+        printf("bEncrypt:%d\r\n", pAdvanceInfo->bEncrypt);
 
         sprintf(strBuf, "version:%s;model:%s;addr:0x%x;chan:0x%x;role:0x%x;baudrate:0x%02x;",
                 pSysInfo->version,

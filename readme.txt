@@ -1,8 +1,8 @@
 # config command
 C2  头
 ADDH
-ADDL
-sped   , ef
+ADDL,  ef
+sped   ,1a 
 channel, 信道
 option,  84
 
